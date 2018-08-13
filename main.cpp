@@ -25,17 +25,19 @@ static const speed_t WSTK_BAUD = B115200;
 static const bool WSTK_XON_XOFF = false;
 static const bool WSTK_RTS_CTS = true;
 
-/*static const uint16_t VID = CEL_VID;
- static const uint16_t PID = CEL_PID;
- static const speed_t BAUD = CEL_BAUD;
- static const bool XON_XOFF = CEL_XON_XOFF;
- static const bool RTS_CTS = CEL_RTS_CTS;*/
-
+/*
+static const uint16_t VID = CEL_VID;
+static const uint16_t PID = CEL_PID;
+static const speed_t BAUD = CEL_BAUD;
+static const bool XON_XOFF = CEL_XON_XOFF;
+static const bool RTS_CTS = CEL_RTS_CTS;
+/*/
 static const uint16_t VID = WSTK_VID;
 static const uint16_t PID = WSTK_PID;
 static const speed_t BAUD = WSTK_BAUD;
 static const bool XON_XOFF = WSTK_XON_XOFF;
 static const bool RTS_CTS = WSTK_RTS_CTS;
+//*/
 
 class Device final
 {
