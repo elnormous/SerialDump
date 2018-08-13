@@ -159,7 +159,8 @@ int main(int argc, const char * argv[])
                     xOnOff = WSTK_XON_XOFF;
                     rtsCts = WSTK_RTS_CTS;
                 }
-                throw std::runtime_error("Invalid device");
+                else
+                    throw std::runtime_error("Invalid device");
             }
             else
                 throw std::runtime_error("Invalid parameter");
