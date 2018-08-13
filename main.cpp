@@ -18,14 +18,14 @@
 // Silicon Labs CEL EM3588 USB Stick
 //static const uint16_t CEL_VID = 0x10C4;
 //static const uint16_t CEL_PID = 0x8A5E;
-static const speed_t CEL_BAUD = B57600;
+static const uint32_t CEL_BAUD = 57600;
 static const bool CEL_XON_XOFF = true;
 static const bool CEL_RTS_CTS = false;
 
 // Silicon Labs WSTK (J-Link Pro OB)
 //static const uint16_t WSTK_VID = 0x1366;
 //static const uint16_t WSTK_PID = 0x0105;
-static const speed_t WSTK_BAUD = B115200;
+static const uint32_t WSTK_BAUD = 115200;
 static const bool WSTK_XON_XOFF = false;
 static const bool WSTK_RTS_CTS = true;
 
@@ -33,7 +33,7 @@ class Device final
 {
 public:
     explicit Device(const std::string& path,
-                    speed_t baud,
+                    uint32_t baud,
                     bool xOnOff,
                     bool rtsCts)
     {
@@ -45,9 +45,40 @@ public:
         if (tcgetattr(fd, &settings) != 0)
             throw std::runtime_error("Failed to get attributes");
 
-        if (cfsetospeed(&settings, baud) != 0) // baud rate
+        speed_t speed;
+
+        switch (baud)
+        {
+            case 0: speed = B0; break;
+            case 50: speed = B50; break;
+            case 75: speed = B75; break;
+            case 110: speed = B110; break;
+            case 134: speed = B134; break;
+            case 150: speed = B150; break;
+            case 200: speed = B200; break;
+            case 300: speed = B300; break;
+            case 600: speed = B600; break;
+            case 1200: speed = B1200; break;
+            case 1800: speed = B1800; break;
+            case 2400: speed = B2400; break;
+            case 4800: speed = B4800; break;
+            case 9600: speed = B9600; break;
+            case 19200: speed = B19200; break;
+            case 38400: speed = B38400; break;
+            case 7200: speed = B7200; break;
+            case 14400: speed = B14400; break;
+            case 28800: speed = B28800; break;
+            case 57600: speed = B57600; break;
+            case 76800: speed = B76800; break;
+            case 115200: speed = B115200; break;
+            case 230400: speed = B230400; break;
+            default:
+                throw std::runtime_error("Invalid baud rate");
+        }
+
+        if (cfsetospeed(&settings, speed) != 0) // baud rate
             throw std::runtime_error("Failed to set baud rate");
-        if (cfsetispeed(&settings, baud) !=0)
+        if (cfsetispeed(&settings, speed) !=0)
             throw std::runtime_error("Failed to set baud rate");
 
         settings.c_cflag &= ~PARENB; // no parity
@@ -147,7 +178,7 @@ int main(int argc, const char * argv[])
     try
     {
         std::string path;
-        speed_t baud = CEL_BAUD;
+        uint32_t baud = CEL_BAUD;
         bool xOnOff = CEL_XON_XOFF;
         bool rtsCts = CEL_RTS_CTS;
 
