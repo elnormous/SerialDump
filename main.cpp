@@ -8,8 +8,12 @@
 #include <vector>
 #include <fcntl.h>
 #include <memory.h>
-#include <termios.h>
-#include <unistd.h>
+#ifdef _WIN32
+#  include <Windows.h>
+#else
+#  include <termios.h>
+#  include <unistd.h>
+#endif
 
 // Silicon Labs CEL EM3588 USB Stick
 //static const uint16_t CEL_VID = 0x10C4;
@@ -121,10 +125,21 @@ public:
         return data;
     }
 
-    bool isClosed() const { return fd == -1; }
+    bool isClosed() const
+    {
+#ifdef _WIN32
+        return handle == INVALID_HANDLE_VALUE;
+#else
+        return fd == -1;
+#endif
+    }
 
 private:
+#ifdef _WIN32
+    HANDLE handle = INVALID_HANDLE_VALUE;
+#else
     int fd = -1;
+#endif
 };
 
 int main(int argc, const char * argv[])

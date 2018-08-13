@@ -2,3 +2,8 @@ SerialDump.xcodeproj/project.xcworkspace
 SerialDump.xcodeproj/xcuserdata
 main.o
 test
+x64/
+SerialDump.VC.VC.opendb
+SerialDump.VC.db
+Debug/
+Release/
