@@ -65,11 +65,7 @@ public:
             case 9600: speed = B9600; break;
             case 19200: speed = B19200; break;
             case 38400: speed = B38400; break;
-            case 7200: speed = B7200; break;
-            case 14400: speed = B14400; break;
-            case 28800: speed = B28800; break;
             case 57600: speed = B57600; break;
-            case 76800: speed = B76800; break;
             case 115200: speed = B115200; break;
             case 230400: speed = B230400; break;
             default:
