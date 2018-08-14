@@ -94,6 +94,13 @@ public:
         if (!SetCommState(handle, &serialParameters))
             throw std::runtime_error("Failed to set parameters");
 
+        COMMTIMEOUTS timeouts;
+        timeouts.ReadIntervalTimeout = 50;
+        timeouts.ReadTotalTimeoutConstant = 50;
+        timeouts.ReadTotalTimeoutMultiplier = 10;
+        timeouts.WriteTotalTimeoutConstant = 50;
+        timeouts.WriteTotalTimeoutMultiplier = 10;
+        SetCommTimeouts(handle, &timeouts);
 #else
         fd = open(path.c_str(), O_RDWR | O_NOCTTY);
 
