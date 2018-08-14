@@ -220,7 +220,16 @@ public:
         
         do
             if (!ReadFile(handle, buffer, sizeof(buffer), &bytesRead, nullptr))
-                throw std::runtime_error("Failed to read data");
+            {
+                if (GetLastError() == ERROR_OPERATION_ABORTED)
+                {
+                    CloseHandle(handle);
+                    handle = INVALID_HANDLE_VALUE;
+                    throw std::runtime_error("Connection closed");
+                }
+                else
+                    throw std::runtime_error("Failed to read data");
+            }
         while (bytesRead == 0);
 
         data.assign(buffer, buffer + bytesRead);
