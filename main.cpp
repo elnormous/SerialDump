@@ -210,8 +210,11 @@ public:
 
 #ifdef _WIN32
         DWORD bytesRead;
-        if (!ReadFile(handle, buffer, sizeof(buffer), &bytesRead, nullptr))
-            throw std::runtime_error("Failed to read data");
+        
+        do
+            if (!ReadFile(handle, buffer, sizeof(buffer), &bytesRead, nullptr))
+                throw std::runtime_error("Failed to read data");
+        while (bytesRead == 0);
 
         data.assign(buffer, buffer + bytesRead);
 #else
